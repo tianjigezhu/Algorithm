@@ -17,7 +17,7 @@
 *  See the License for the specific language governing permissions and       *
 *  limitations under the License.                                            *
 *                                                                            *
-*  @file     SingleLinkList.hpp                                              *
+*  @file     ISingleLinkList.hpp                                              *
 *  @brief    SingleLinkList head file                                        *
 *  Define SingleLinkeList template class.                                    *
 *                                                                            *
@@ -38,8 +38,8 @@
 *                                                                            *
 *****************************************************************************/
 
-#ifndef __PARADISE_ALGORITHM_SINGLE_LINK_LIST_HPP__
-#define __PARADISE_ALGORITHM_SINGLE_LINK_LIST_HPP__
+#ifndef __PARADISE_ALGORITHM_I_SINGLE_LINK_LIST_HPP__
+#define __PARADISE_ALGORITHM_I_SINGLE_LINK_LIST_HPP__
 
 #include "Paradise.hpp"
 
@@ -56,16 +56,6 @@ namespace Paradise
  */
 namespace Algorithm
 {
-
-/**
- *@brief 单链表类的内部数据节点模板。
- */
-template<class T>
-struct SSingleLinkListNode
-{
-	T info;
-	SSingleLinkeListNode *m_pnext;
-}
 
 /**
  * @class ISingleLinkList
@@ -107,14 +97,14 @@ public:
 	 *
 	 * @return 链表是空链表返回false，否则返回true
 	 */
-	bool isEmpty() = 0;
+	virtual bool isEmpty() = 0;
 
 	/**
 	 * @brief 计算链表长度
 	 *
 	 * @return 返回链表的长度
 	 */
-	int length() = 0;
+	virtual int length() = 0;
 
 	/**
 	 * @brief 获取链表第一个元素值
@@ -122,7 +112,7 @@ public:
 	 *
 	 * @return 链表第一个元素值
 	 */
-	T font() const = 0;
+	virtual T font() const = 0;
 
 	/**
 	 * @brief 获取链表最后一个元素值
@@ -130,34 +120,29 @@ public:
 	 *
 	 * @return 链表最后一个元素值
 	 */
-	T back() const = 0;
+	virtual T back() const = 0;
 
 	/**
 	 * @brief 查询指定值是否存在链表中。
 	 *
 	 * @return 返回指定值是否在链表中，如果存在则返回true，否则返回false
 	 */
-	bool search(const T& searchItem) const = 0;
+	virtual bool search(const T& searchItem) const = 0;
 
 	/**
 	 * @brief 将指定值插在链表的开头
 	 */
-	void insertFirst(const T& newItem) = 0;
+	virtual void insertFirst(const T& newItem) = 0;
 
 	/**
 	 * @brief 将指定值插在链表的结尾
 	 */
-	void insertLast(const T& newItem) = 0;
-
-	/**
-	 * @brief 将指定值插在指定位置
-	 */
-	void insert(const T& newItem, int index) = 0;
+	virtual void insertLast(const T& newItem) = 0;
 
 	/**
 	 * @brief 删除指定值
 	 */
-	void deleteItem(const T& deleteItem) = 0;
+	virtual void deleteItem(const T& deleteItem) = 0;
 };
 
 }

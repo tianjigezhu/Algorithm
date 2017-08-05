@@ -17,7 +17,7 @@
 *  See the License for the specific language governing permissions and       *
 *  limitations under the License.                                            *
 *                                                                            *
-*  @file     SingleLinkList.hpp                                              *
+*  @file     CSingleLinkList.hpp                                              *
 *  @brief    SingleLinkList head file                                        *
 *  Define SingleLinkeList template class.                                    *
 *                                                                            *
@@ -38,10 +38,10 @@
 *                                                                            *
 *****************************************************************************/
 
-#ifndef __PARADISE_ALGORITHM_SINGLE_LINK_LIST_HPP__
-#define __PARADISE_ALGORITHM_SINGLE_LINK_LIST_HPP__
+#ifndef __PARADISE_ALGORITHM_CSINGLE_LINK_LIST_HPP__
+#define __PARADISE_ALGORITHM_CSINGLE_LINK_LIST_HPP__
 
-#include "Paradise.hpp"
+#include "ISingleLinkList.hpp"
 
 /**
  * @brief 定义了命名空间Paradise，包含其他命名空间
@@ -68,53 +68,54 @@ struct SSingleLinkListNode
 }
 
 /**
- * @class ISingleLinkList
+ * @class CSingleLinkList
  *
- * @brief 单链表接口模板
- * 本类是单链表接口的定义，接口类为虚基类。
+ * @brief 单链表模板类
+ * 本类是单链表类模板的定义，继承单链表接口。
  * 
  */	
 template<class T>
-class ISingleLinkList
+class CSingleLinkList
 {
 // 定义构造函数、复制构造函数、析构函数
 public:
 	/**
 	 * @brief 构造函数
 	 */
-	ISingleLinkList() = 0;
+	CSingleLinkList();
 
 	/**
 	 * @brief 析构函数
 	 */
-	virtual ~ISingleLinkList() = 0
+	virtual ~CSingleLinkList();
 
 	/**
 	 * @brief 复制构造函数
 	 */
-	ISingleLinkeList(const ISingleLinkList<T>& other) = 0;
+	CSingleLinkeList(const ISingleLinkList<T>& other);
 
 // 重定义操作符
 public:
 	/**
 	 * @brief 重载赋值操作符
 	 */
-	const ISingleLinkList<T>& operator==(const ISingleLinkList<T>& other) = 0;
+	const CSingleLinkList<T>& operator==(const CSingleLinkList<T>& other);
 
+// 其余成员函数声明
 public:
 	/**
 	 * @brief 判断链表是否为空
 	 *
 	 * @return 链表是空链表返回false，否则返回true
 	 */
-	bool isEmpty() = 0;
+	bool isEmpty();
 
 	/**
 	 * @brief 计算链表长度
 	 *
 	 * @return 返回链表的长度
 	 */
-	int length() = 0;
+	int length();
 
 	/**
 	 * @brief 获取链表第一个元素值
@@ -122,7 +123,7 @@ public:
 	 *
 	 * @return 链表第一个元素值
 	 */
-	T font() const = 0;
+	T font() const;
 
 	/**
 	 * @brief 获取链表最后一个元素值
@@ -130,34 +131,46 @@ public:
 	 *
 	 * @return 链表最后一个元素值
 	 */
-	T back() const = 0;
+	T back() const;
 
 	/**
 	 * @brief 查询指定值是否存在链表中。
 	 *
 	 * @return 返回指定值是否在链表中，如果存在则返回true，否则返回false
 	 */
-	bool search(const T& searchItem) const = 0;
+	bool search(const T& searchItem) const;
 
 	/**
 	 * @brief 将指定值插在链表的开头
 	 */
-	void insertFirst(const T& newItem) = 0;
+	void insertFirst(const T& newItem);
 
 	/**
 	 * @brief 将指定值插在链表的结尾
 	 */
-	void insertLast(const T& newItem) = 0;
-
-	/**
-	 * @brief 将指定值插在指定位置
-	 */
-	void insert(const T& newItem, int index) = 0;
+	void insertLast(const T& newItem);
 
 	/**
 	 * @brief 删除指定值
 	 */
-	void deleteItem(const T& deleteItem) = 0;
+	void deleteItem(const T& deleteItem);
+
+// 定义成员变量
+protected:
+	/**
+	 * @brief 链表的长度
+	 */
+	int m_count;
+
+	/**
+	 * @brief 链表头指针
+	 */
+	SSingleLinkListNode* m_pfirst;
+
+	/**
+	 * @brief 链表尾部指针
+	 */
+	SSingleLinkListNode* m_plast;
 };
 
 }
