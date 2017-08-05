@@ -17,8 +17,8 @@
 *  See the License for the specific language governing permissions and       *
 *  limitations under the License.                                            *
 *                                                                            *
-*  @file     ISingleLinkList.hpp                                             *
-*  @brief    SingleLinkList head file                                        *
+*  @file     CSingleLinkList.cpp                                             *
+*  @brief    SingleLinkList source file                                      *
 *  Define SingleLinkeList template class.                                    *
 *                                                                            *
 *  @author   Tianjigezhu                                                     *
@@ -38,128 +38,112 @@
 *                                                                            *
 *****************************************************************************/
 
-#ifndef __PARADISE_ALGORITHM_I_SINGLE_LINK_LIST_HPP__
-#define __PARADISE_ALGORITHM_I_SINGLE_LINK_LIST_HPP__
-
-#include "Paradise.hpp"
+#include "CSingleLinkList.hpp"
 
 /**
- * @brief 定义了命名空间Paradise，包含其他命名空间
- * 命名空间Paradise是所有项目的最高命名空间，其他项目的命名空间都必须定义在这命名空间了内。
+ * @brief 构造函数
  */
-namespace Paradise
+CSingleLinkList::CSingleLinkList()
+  : m_count(0), m_pfirstNode(NULL), m_plastNode(NULL)
 {
+}
 
 /**
- * @brief 定义了命名空间Algorithm
- * 命名空间Algorithm是C++算法的命名空间，所有C++数据结构与算法都定义在此命名空间内。
+ * @brief 析构函数
  */
-namespace Algorithm
+CSingleLinkList::~CSingleLinkList()
 {
+	// 调用函数删除链表
+	destroyList();
+}
 
 /**
- * @class ISingleLinkList
- *
- * @brief 单链表接口模板
- * 本类是单链表接口的定义，接口类为虚基类。
- * 
- */	
-template<class T>
-class ISingleLinkList
+ * @brief 复制构造函数
+ */
+CSingleLinkList::CSingleLinkeList(const CSingleLinkList<T>& otherList)
 {
-// 定义构造函数、复制构造函数、析构函数
-public:
-	/**
-	 * @brief 构造函数
-	 */
-	ISingleLinkList() = 0;
+	// 调用函数复制链表
+	copyList(otherList)
+}
 
-	/**
-	 * @brief 析构函数
-	 */
-	virtual ~ISingleLinkList() = 0
+/**
+ * @brief 删除链表
+ */
+CSingleLinkList::destroyList()
+{
+	// 循环删除每一个成员
+	SSingleLinkListNode* pdeleteItem = NULL;
+	while (m_pfirstNode) {
+		pdeleteItem = m_pfirstNode;
+		m_pfirstNode = m_pfirstNode->m_pnext;
+		delete pdeleteItem;
+	}
 
-	/**
-	 * @brief 复制构造函数
-	 */
-	ISingleLinkeList(const ISingleLinkList<T>& other) = 0;
+	// 将头尾指针设置为NULL，防止使用链表导致异常
+	m_pfirstNode = NULL;
+	m_plastNode = NULL;
+}
 
-// 重定义操作符
-public:
-	/**
-	 * @brief 重载赋值操作符
-	 */
-	const ISingleLinkList<T>& operator==(const ISingleLinkList<T>& other) = 0;
+/**
+ * @brief 复制链表
+ */
+void CSingleLinkList::copyList(const CSingleLinkList<T>& otherList)
+{
+	// 判断复制的链表是否是空链表
+	// 如果为空，则删除本链表
+	if (otherList.isEmpty()) {
+		destroyList();
+		return ;
+	}
 
-public:
-	/**
-	 * @brief 判断链表是否为空
-	 *
-	 * @return 链表是空链表返回false，否则返回true
-	 */
-	virtual bool isEmpty() = 0;
+	// 定义指向本链表和复制链表第一个节点的指针
+	SSingleLinkListNode *pfirstListNode = NULL, *psecondListNode = NULL;
+	pfirstListNode = m_pfirstNode;
+	psecondListNode = otherList->m_pfirstNode;
+	
+	// 判断本链表第一个节点是否存在
+	// 如果不存在则构造第一个节点并赋值
+	if (!pfirstListNode) {
+		pfirstListNode = new SSingleLinkListNode;
+		pfirstListNode->value = psecondListNode->value;
+		pfirstListNode->m_pnext = NULL;
 
-	/**
-	 * @brief 计算链表长度
-	 *
-	 * @return 返回链表的长度
-	 */
-	virtual int length() = 0;
+		m_pfirstNode = pfirstListNode;
+		m_plastNode = m_pfirstNode;
 
-	/**
-	 * @brief 获取链表第一个元素值
-	 * 在使用之前应先判断链表是否有值。
-	 *
-	 * @return 链表第一个元素值
-	 */
-	virtual T font() const = 0;
+	}
 
-	/**
-	 * @brief 获取链表最后一个元素值
-	 * 在使用之前应先判断链表是否有值。
-	 *
-	 * @return 链表最后一个元素值
-	 */
-	virtual T back() const = 0;
+	// 复制每一个节点，从第二个节点开始
+	psecondListNode = psecondListNode->m_pnext;
+	pfirstListNode = pfirstListNode->m_pnext;
+	while (psecondListNode) {
+		if (pfirstListNode) {
+			pfirstListNode->value = psecondListNode->value;
+		} else {
+			pfirstListNode = new SSingleLinkListNode;
+			pfirstListNode->value = psecondListNode->value;
+			pfirstListNode->m_pnext = NULL;
+			m_plastNode->m_pnext = pfirstListNode;		
+		}
 
-	/**
-	 * @brief 查询指定值是否存在链表中。
-	 *
-	 * @return 返回指定值是否在链表中，如果存在则返回true，否则返回false
-	 */
-	virtual bool search(const T& searchItem) const = 0;
+		/*
+		 * 将pfirstListNode赋值给m_plastNode，当
+		 * 循环复制结束之后m_plastNode恰好指向本链表最后一个节点
+		 */
+		m_plastNode = pfirstListNode;
+		psecondListNode = psecondListNode->m_pnext;
+		pfirstListNode = pfirstListNode->m_pnext;
+	}
 
-	/**
-	 * @brief 将指定值插在链表的开头
-	 */
-	virtual void insertFirst(const T& newItem) = 0;
+	// 复制之后删除本链表多余的节点
+	if (pfirstListNode) {
+		SSingleLinkListNode* pdeleteItem = NULL;
+		pdeleteItem = pfirstListNode;
+		pfirstListNode = pfirstListNode->m_pnext;
+		delete pdeleteItem;
+	}
 
-	/**
-	 * @brief 将指定值插在链表的结尾
-	 */
-	virtual void insertLast(const T& newItem) = 0;
-
-	/**
-	 * @brief 删除指定值
-	 */
-	virtual void deleteItem(const T& deleteItem) = 0;
-
-// 私有成员函数定义
-private:
-	/**
-	 * @brief 删除链表
-	 */
-	virtual void destroyList() = 0;
-
-	/**
-	 * @brief 复制链表
-	 */
-	virtual void copyList(const CSingleLinkList<T>& otherList) = 0;
-
-}; // ISingleLinkList
-
-} // Algorithm
-
-} // Paradise 
-
-#endif // __PARADISE_ALGORITHM_I_SINGLE_LINK_LIST_HPP__
+	m_plastNode->m_pnext = NULL;
+	pfirstListNode = NULL;
+	psecondListNode = NULL;
+}

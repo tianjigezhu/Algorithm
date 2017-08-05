@@ -17,7 +17,7 @@
 *  See the License for the specific language governing permissions and       *
 *  limitations under the License.                                            *
 *                                                                            *
-*  @file     CSingleLinkList.hpp                                              *
+*  @file     CSingleLinkList.hpp                                             *
 *  @brief    SingleLinkList head file                                        *
 *  Define SingleLinkeList template class.                                    *
 *                                                                            *
@@ -63,7 +63,7 @@ namespace Algorithm
 template<class T>
 struct SSingleLinkListNode
 {
-	T info;
+	T value;
 	SSingleLinkeListNode *m_pnext;
 }
 
@@ -92,14 +92,14 @@ public:
 	/**
 	 * @brief 复制构造函数
 	 */
-	CSingleLinkeList(const ISingleLinkList<T>& other);
+	CSingleLinkeList(const CSingleLinkList<T>& otherList);
 
 // 重定义操作符
 public:
 	/**
 	 * @brief 重载赋值操作符
 	 */
-	const CSingleLinkList<T>& operator==(const CSingleLinkList<T>& other);
+	const CSingleLinkList<T>& operator==(const CSingleLinkList<T>& otherList);
 
 // 其余成员函数声明
 public:
@@ -165,16 +165,29 @@ protected:
 	/**
 	 * @brief 链表头指针
 	 */
-	SSingleLinkListNode* m_pfirst;
+	SSingleLinkListNode* m_pfirstNode;
 
 	/**
 	 * @brief 链表尾部指针
 	 */
-	SSingleLinkListNode* m_plast;
-};
+	SSingleLinkListNode* m_plastNode;
 
-}
+// 私有成员函数定义
+private:
+	/**
+	 * @brief 删除链表
+	 */
+	void destroyList();
 
-}
+	/**
+	 * @brief 复制链表
+	 */
+	void copyList(const CSingleLinkList<T>& otherList);
 
-#endif // __SINGLE_LINK_LIST_HPP__
+}; // CSingleLinkList
+
+} // Algorithm
+
+} // Paradise
+
+#endif // __PARADISE_ALGORITHM_CSINGLE_LINK_LIST_HPP__
