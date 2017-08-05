@@ -108,14 +108,14 @@ public:
 	 *
 	 * @return 链表是空链表返回false，否则返回true
 	 */
-	bool isEmpty();
+	bool isEmpty() const;
 
 	/**
 	 * @brief 计算链表长度
 	 *
 	 * @return 返回链表的长度
 	 */
-	int length();
+	int length() const;
 
 	/**
 	 * @brief 获取链表第一个元素值
