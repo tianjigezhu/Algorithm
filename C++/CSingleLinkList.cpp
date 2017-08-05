@@ -82,6 +82,7 @@ CSingleLinkList::destroyList()
 	// 将头尾指针设置为NULL，防止使用链表导致异常
 	m_pfirstNode = NULL;
 	m_plastNode = NULL;
+	m_count = 0;
 }
 
 /**
@@ -100,7 +101,8 @@ void CSingleLinkList::copyList(const CSingleLinkList<T>& otherList)
 	SSingleLinkListNode *pfirstListNode = NULL, *psecondListNode = NULL;
 	pfirstListNode = m_pfirstNode;
 	psecondListNode = otherList->m_pfirstNode;
-	
+	m_count = otherList.length();
+
 	// 判断本链表第一个节点是否存在
 	// 如果不存在则构造第一个节点并赋值
 	if (!pfirstListNode) {
@@ -110,7 +112,6 @@ void CSingleLinkList::copyList(const CSingleLinkList<T>& otherList)
 
 		m_pfirstNode = pfirstListNode;
 		m_plastNode = m_pfirstNode;
-
 	}
 
 	// 复制每一个节点，从第二个节点开始
