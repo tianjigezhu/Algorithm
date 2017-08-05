@@ -48,14 +48,23 @@
 namespace Paradise
 {
 
-	/**
-	 * @brief 定义了命名空间Algorithm
-	 * 命名空间Algorithm是C++算法的命名空间，所有C++数据结构与算法都定义在此命名空间内。
-	 */
-	namespace Algorithm
-	{
+/**
+ * @brief 定义了命名空间Algorithm
+ * 命名空间Algorithm是C++算法的命名空间，所有C++数据结构与算法都定义在此命名空间内。
+ */
+namespace Algorithm
+{
 
-	} // namespace Algorithm
+} // namespace Algorithm
+
+/**
+ * @brief 定义了命名空间Type
+ * 命名空间Type是C++所有除算法外自定义类型的命名空间
+ */
+namespace Type
+{
+
+}
 
 } // namespace Paradise
 

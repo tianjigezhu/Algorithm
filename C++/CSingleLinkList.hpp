@@ -42,6 +42,7 @@
 #define __PARADISE_ALGORITHM_CSINGLE_LINK_LIST_HPP__
 
 #include "ISingleLinkList.hpp"
+#include "Type.hpp" 
 
 /**
  * @brief 定义了命名空间Paradise，包含其他命名空间
@@ -63,9 +64,9 @@ namespace Algorithm
 template<class T>
 struct SSingleLinkListNode
 {
-	T value;
-	SSingleLinkeListNode *m_pnext;
-}
+	T m_value;
+	SSingleLinkListNode<T> *m_pnext;
+};
 
 /**
  * @class CSingleLinkList
@@ -92,7 +93,7 @@ public:
 	/**
 	 * @brief 复制构造函数
 	 */
-	CSingleLinkeList(const CSingleLinkList<T>& otherList);
+	CSingleLinkList(const CSingleLinkList<T>& otherList);
 
 // 重定义操作符
 public:
@@ -108,7 +109,7 @@ public:
 	 *
 	 * @return 链表是空链表返回false，否则返回true
 	 */
-	bool isEmpty() const;
+	Paradise::Type::EBool isEmpty() const;
 
 	/**
 	 * @brief 计算链表长度
@@ -123,7 +124,7 @@ public:
 	 *
 	 * @return 链表第一个元素值
 	 */
-	T font() const;
+	T front() const;
 
 	/**
 	 * @brief 获取链表最后一个元素值
@@ -138,7 +139,7 @@ public:
 	 *
 	 * @return 返回指定值是否在链表中，如果存在则返回true，否则返回false
 	 */
-	bool search(const T& searchItem) const;
+	Paradise::Type::EBool search(const T& searchItem) const;
 
 	/**
 	 * @brief 将指定值插在链表的开头
@@ -165,12 +166,12 @@ protected:
 	/**
 	 * @brief 链表头指针
 	 */
-	SSingleLinkListNode* m_pfirstNode;
+	SSingleLinkListNode<T>* m_pfirstNode;
 
 	/**
 	 * @brief 链表尾部指针
 	 */
-	SSingleLinkListNode* m_plastNode;
+	SSingleLinkListNode<T>* m_plastNode;
 
 // 私有成员函数定义
 private:
@@ -189,5 +190,7 @@ private:
 } // Algorithm
 
 } // Paradise
+
+#include "CSingleLinkList_impl.hpp"
 
 #endif // __PARADISE_ALGORITHM_CSINGLE_LINK_LIST_HPP__
