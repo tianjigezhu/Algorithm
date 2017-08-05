@@ -42,6 +42,7 @@
 #define __PARADISE_ALGORITHM_I_SINGLE_LINK_LIST_HPP__
 
 #include "Paradise.hpp"
+#include "Type.hpp"
 
 /**
  * @brief 定义了命名空间Paradise，包含其他命名空间
@@ -72,24 +73,24 @@ public:
 	/**
 	 * @brief 构造函数
 	 */
-	ISingleLinkList() = 0;
+	//ISingleLinkList() = 0;
 
 	/**
 	 * @brief 析构函数
 	 */
-	virtual ~ISingleLinkList() = 0;
+	//virtual ~ISingleLinkList() = 0;
 
 	/**
 	 * @brief 复制构造函数
 	 */
-	ISingleLinkList(const ISingleLinkList<T>& other) = 0;
+	//ISingleLinkList(const ISingleLinkList<T>& other) = 0;
 
 // 重定义操作符
 public:
 	/**
 	 * @brief 重载赋值操作符
 	 */
-	const ISingleLinkList<T>& operator==(const ISingleLinkList<T>& other) = 0;
+	//const ISingleLinkList<T>& operator==(const ISingleLinkList<T>& other) = 0;
 
 public:
 	/**
@@ -97,7 +98,7 @@ public:
 	 *
 	 * @return 链表是空链表返回false，否则返回true
 	 */
-	virtual bool isEmpty() const = 0;
+	virtual Paradise::Type::EBool isEmpty() const = 0;
 
 	/**
 	 * @brief 计算链表长度
@@ -112,7 +113,7 @@ public:
 	 *
 	 * @return 链表第一个元素值
 	 */
-	virtual T font() const = 0;
+	virtual T front() const = 0;
 
 	/**
 	 * @brief 获取链表最后一个元素值
@@ -127,7 +128,7 @@ public:
 	 *
 	 * @return 返回指定值是否在链表中，如果存在则返回true，否则返回false
 	 */
-	virtual bool search(const T& searchItem) const = 0;
+	virtual Paradise::Type::EBool search(const T& searchItem) const = 0;
 
 	/**
 	 * @brief 将指定值插在链表的开头

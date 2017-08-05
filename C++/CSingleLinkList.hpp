@@ -76,7 +76,7 @@ struct SSingleLinkListNode
  * 
  */	
 template<class T>
-class CSingleLinkList
+class CSingleLinkList : public ISingleLinkList<T>
 {
 // 定义构造函数、复制构造函数、析构函数
 public:
