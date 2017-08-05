@@ -247,6 +247,8 @@ void Paradise::Algorithm::CSingleLinkList<T>::insertFirst(const T& newItem)
 	pnewNode->m_value = newItem;
 	pnewNode->m_pnext = m_pfirstNode;
 	m_pfirstNode = pnewNode;
+	if (m_plastNode)
+		m_plastNode = m_pfirstNode;
 	++m_count;
 }
 
@@ -259,8 +261,15 @@ void Paradise::Algorithm::CSingleLinkList<T>::insertLast(const T& newItem)
 	SSingleLinkListNode<T>* pnewNode = new SSingleLinkListNode<T>;
 	pnewNode->m_value = newItem;
 	pnewNode->m_pnext = NULL;
-	m_plastNode->m_pnext = pnewNode;
-	m_plastNode = pnewNode;
+
+	if (NULL == m_pfirstNode) {
+		m_pfirstNode = pnewNode;
+		m_plastNode = pnewNode;
+	} else {
+		m_plastNode->m_pnext = pnewNode;
+		m_plastNode = pnewNode;
+	}
+	
 	++m_count;
 }
 
@@ -270,7 +279,35 @@ void Paradise::Algorithm::CSingleLinkList<T>::insertLast(const T& newItem)
 template<class T>
 void Paradise::Algorithm::CSingleLinkList<T>::deleteItem(const T& deleteItem)
 {
+	if (!m_pfirstNode)
+		return ;
 
+	SSingleLinkListNode<T> *pdeleteNode = NULL, *ptailNode = NULL;
+	pdeleteNode = m_pfirstNode;
+	if (pdeleteNode->m_value == deleteItem) {
+		m_pfirstNode = m_pfirstNode->m_pnext;
+		if (!m_pfirstNode) {
+			m_plastNode = NULL;
+		}
+		delete pdeleteNode; 
+		--m_count;
+		return ;
+	}
+
+	ptailNode = pdeleteNode;
+	pdeleteNode = m_pfirstNode->m_pnext;
+	while (pdeleteNode) {
+		if (deleteItem == pdeleteNode->m_value) {
+			if (NULL == pdeleteNode->m_pnext) {
+				m_plastNode = ptailNode;
+				m_plastNode->m_pnext = NULL;
+			}
+			delete pdeleteNode;
+			return ;
+		}
+		ptailNode = ptailNode->m_pnext;
+		pdeleteNode = pdeleteNode->m_pnext;
+	}
 }
 
 #endif // #ifndef __PARADISE_ALGORITHM_CSINGLE_LINK_LIST_IMPL_HPP__

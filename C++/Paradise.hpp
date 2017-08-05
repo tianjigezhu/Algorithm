@@ -64,7 +64,7 @@ namespace Algorithm
 namespace Type
 {
 
-}
+} // namespace Type
 
 } // namespace Paradise
 
