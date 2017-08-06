@@ -41,7 +41,7 @@
 #ifndef __PARADISE_ALGORITHM_CSINGLE_LINK_LIST_HPP__
 #define __PARADISE_ALGORITHM_CSINGLE_LINK_LIST_HPP__
 
-#include "ISingleLinkList.hpp"
+#include "ILinkList.hpp"
 #include "Type.hpp" 
 
 /**
@@ -76,7 +76,7 @@ struct SSingleLinkListNode
  * 
  */	
 template<class T>
-class CSingleLinkList : public ISingleLinkList<T>
+class CSingleLinkList : public ILinkList<T>
 {
 // 定义构造函数、复制构造函数、析构函数
 public:
