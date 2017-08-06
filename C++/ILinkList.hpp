@@ -17,9 +17,9 @@
 *  See the License for the specific language governing permissions and       *
 *  limitations under the License.                                            *
 *                                                                            *
-*  @file     ISingleLinkList.hpp                                             *
-*  @brief    SingleLinkList head file                                        *
-*  Define SingleLinkeList template class.                                    *
+*  @file     ILinkList.hpp                                                   *
+*  @brief    LinkList head file                                              *
+*  Define LinkeList template interface.                                      *
 *                                                                            *
 *  @author   Tianjigezhu                                                     *
 *  @email    tianjigezhuhn@aliyun.com                                        *
@@ -38,8 +38,8 @@
 *                                                                            *
 *****************************************************************************/
 
-#ifndef __PARADISE_ALGORITHM_I_SINGLE_LINK_LIST_HPP__
-#define __PARADISE_ALGORITHM_I_SINGLE_LINK_LIST_HPP__
+#ifndef __PARADISE_ALGORITHM_I_LINK_LIST_HPP__
+#define __PARADISE_ALGORITHM_I_LINK_LIST_HPP__
 
 #include "Paradise.hpp"
 #include "Type.hpp"
@@ -59,38 +59,38 @@ namespace Algorithm
 {
 
 /**
- * @class ISingleLinkList
+ * @class ILinkList
  *
  * @brief 单链表接口模板
  * 本类是单链表接口的定义，接口类为虚基类。
  * 
  */	
 template<class T>
-class ISingleLinkList
+class ILinkList
 {
 // 定义构造函数、复制构造函数、析构函数
 public:
 	/**
 	 * @brief 构造函数
 	 */
-	//ISingleLinkList() = 0;
+	//ILinkList() = 0;
 
 	/**
 	 * @brief 析构函数
 	 */
-	//virtual ~ISingleLinkList() = 0;
+	//virtual ~ILinkList() = 0;
 
 	/**
 	 * @brief 复制构造函数
 	 */
-	//ISingleLinkList(const ISingleLinkList<T>& other) = 0;
+	//ILinkList(const ILinkList<T>& other) = 0;
 
 // 重定义操作符
 public:
 	/**
 	 * @brief 重载赋值操作符
 	 */
-	//const ISingleLinkList<T>& operator==(const ISingleLinkList<T>& other) = 0;
+	//const ILinkList<T>& operator==(const ILinkList<T>& other) = 0;
 
 public:
 	/**
@@ -151,4 +151,4 @@ public:
 
 } // Paradise 
 
-#endif // __PARADISE_ALGORITHM_I_SINGLE_LINK_LIST_HPP__
+#endif // __PARADISE_ALGORITHM_I_LINK_LIST_HPP__
