@@ -38,11 +38,13 @@
 *                                                                            *
 *****************************************************************************/
 
-#ifndef __PARADISE_ALGORITHM_CSINGLE_LINK_LIST_HPP__
-#define __PARADISE_ALGORITHM_CSINGLE_LINK_LIST_HPP__
+#ifndef __PARADISE_ALGORITHM_C_SINGLE_LINK_LIST_HPP__
+#define __PARADISE_ALGORITHM_C_SINGLE_LINK_LIST_HPP__
 
 #include "ILinkList.hpp"
 #include "Type.hpp" 
+
+#include <stdlib.h>
 
 /**
  * @brief 定义了命名空间Paradise，包含其他命名空间
@@ -66,6 +68,7 @@ struct SSingleLinkListNode
 {
 	T m_value;
 	SSingleLinkListNode<T> *m_pnext;
+	SSingleLinkListNode() { m_pnext = NULL; }
 };
 
 /**
@@ -142,6 +145,14 @@ public:
 	Paradise::Type::EBool search(const T& searchItem) const;
 
 	/**
+	 * @brief 获取指定索引的节点值。
+	 * 如果索引超出范围，则会打印错误，并退出。索引从0开始。
+	 *
+	 * @return 返回指定索引的节点值。
+	 */
+	T valueAt(int index) const;
+
+	/**
 	 * @brief 将指定值插在链表的开头
 	 */
 	void insertFirst(const T& newItem);
@@ -193,4 +204,4 @@ private:
 
 #include "CSingleLinkList_impl.hpp"
 
-#endif // __PARADISE_ALGORITHM_CSINGLE_LINK_LIST_HPP__
+#endif // __PARADISE_ALGORITHM_C_SINGLE_LINK_LIST_HPP__

@@ -17,9 +17,9 @@
 *  See the License for the specific language governing permissions and       *
 *  limitations under the License.                                            *
 *                                                                            *
-*  @file     CSingleLinkList.cpp                                             *
-*  @brief    SingleLinkList source file                                      *
-*  Define SingleLinkeList template class.                                    *
+*  @file     CLinkList.hpp                                                   *
+*  @brief    LinkList source file                                            *
+*  Define LinkeList template class.                                          *
 *                                                                            *
 *  @author   Tianjigezhu                                                     *
 *  @email    tianjigezhuhn@aliyun.com                                        *
@@ -40,7 +40,7 @@
 
 #ifndef __PARADISE_ALGORITHM_C_SINGLE_LINK_LIST_IMPL_HPP__
 #define __PARADISE_ALGORITHM_C_SINGLE_LINK_LIST_IMPL_HPP__
-//#include "CSingleLinkList.hpp"
+//#include "CLinkList.hpp"
 
 
 #include <stdlib.h>
@@ -51,7 +51,7 @@
  * @brief 构造函数
  */
 template<class T>
-Paradise::Algorithm::CSingleLinkList<T>::CSingleLinkList()
+Paradise::Algorithm::CLinkList<T>::CLinkList()
   : m_count(0), m_pfirstNode(NULL), m_plastNode(NULL)
 {
 }
@@ -60,7 +60,7 @@ Paradise::Algorithm::CSingleLinkList<T>::CSingleLinkList()
  * @brief 析构函数
  */
 template<class T>
-Paradise::Algorithm::CSingleLinkList<T>::~CSingleLinkList()
+Paradise::Algorithm::CLinkList<T>::~CLinkList()
 {
 	// 调用函数删除链表
 	destroyList();
@@ -70,7 +70,7 @@ Paradise::Algorithm::CSingleLinkList<T>::~CSingleLinkList()
  * @brief 复制构造函数
  */
 template<class T>
-Paradise::Algorithm::CSingleLinkList<T>::CSingleLinkList(const Paradise::Algorithm::CSingleLinkList<T>& otherList)
+Paradise::Algorithm::CLinkList<T>::CLinkList(const Paradise::Algorithm::CLinkList<T>& otherList)
 {
 	// 调用函数复制链表
 	copyList(otherList);
@@ -80,8 +80,8 @@ Paradise::Algorithm::CSingleLinkList<T>::CSingleLinkList(const Paradise::Algorit
  * @brief 重载赋值操作符
  */
 template<class T>
-const Paradise::Algorithm::CSingleLinkList<T>& 
-Paradise::Algorithm::CSingleLinkList<T>::operator==(const Paradise::Algorithm::CSingleLinkList<T>& otherList)
+const Paradise::Algorithm::CLinkList<T>& 
+Paradise::Algorithm::CLinkList<T>::operator==(const Paradise::Algorithm::CLinkList<T>& otherList)
 {
 	copyList(otherList);
 
@@ -92,7 +92,7 @@ Paradise::Algorithm::CSingleLinkList<T>::operator==(const Paradise::Algorithm::C
  * @brief 删除链表
  */
 template<class T>
-void Paradise::Algorithm::CSingleLinkList<T>::destroyList()
+void Paradise::Algorithm::CLinkList<T>::destroyList()
 {
 	// 循环删除每一个成员
 	SSingleLinkListNode<T>* pdeleteItem = NULL;
@@ -112,7 +112,7 @@ void Paradise::Algorithm::CSingleLinkList<T>::destroyList()
  * @brief 复制链表
  */
 template<class T>
-void Paradise::Algorithm::CSingleLinkList<T>::copyList(const Paradise::Algorithm::CSingleLinkList<T>& otherList)
+void Paradise::Algorithm::CLinkList<T>::copyList(const Paradise::Algorithm::CLinkList<T>& otherList)
 {
 	// 判断复制的链表是否是空链表
 	// 如果为空，则删除本链表
@@ -121,54 +121,31 @@ void Paradise::Algorithm::CSingleLinkList<T>::copyList(const Paradise::Algorithm
 		return ;
 	}
 
+
 	// 定义指向本链表和复制链表第一个节点的指针
 	SSingleLinkListNode<T> *pfirstListNode = NULL, *psecondListNode = NULL;
 	pfirstListNode = m_pfirstNode;
 	psecondListNode = otherList->m_pfirstNode;
 	m_count = otherList.length();
 
-	// 判断本链表第一个节点是否存在
-	// 如果不存在则构造第一个节点并赋值
-	if (!pfirstListNode) {
-		pfirstListNode = new SSingleLinkListNode<T>;
-		pfirstListNode->m_value = psecondListNode->m_value;
-		pfirstListNode->m_pnext = NULL;
-
-		m_pfirstNode = pfirstListNode;
-		m_plastNode = m_pfirstNode;
-	}
-
-	// 复制每一个节点，从第二个节点开始
-	psecondListNode = psecondListNode->m_pnext;
-	pfirstListNode = pfirstListNode->m_pnext;
 	while (psecondListNode) {
 		if (pfirstListNode) {
 			pfirstListNode->m_value = psecondListNode->m_value;
 		} else {
 			pfirstListNode = new SSingleLinkListNode<T>;
-			pfirstListNode->m_value = psecondListNode->m_value;
+			firstListNode->m_value = psecondListNode->m_value;
 			pfirstListNode->m_pnext = NULL;
-			m_plastNode->m_pnext = pfirstListNode;		
+			if (m_plastNode) {
+				pfirstListNode->m_pprevious = m_plastNode;
+				m_plastNode->m_pnext = pfirstListNode;
+			} else {
+				m_pfirstNode = m_plastNode = pfirstListNode;
+				pfirstListNode->m_pprevious = NULL;
+			}
+					
 		}
-
-		/*
-		 * 将pfirstListNode赋值给m_plastNode，当
-		 * 循环复制结束之后m_plastNode恰好指向本链表最后一个节点
-		 */
-		m_plastNode = pfirstListNode;
-		psecondListNode = psecondListNode->m_pnext;
-		pfirstListNode = pfirstListNode->m_pnext;
 	}
 
-	// 复制之后删除本链表多余的节点
-	if (pfirstListNode) {
-		SSingleLinkListNode<T>* pdeleteItem = NULL;
-		pdeleteItem = pfirstListNode;
-		pfirstListNode = pfirstListNode->m_pnext;
-		delete pdeleteItem;
-	}
-
-	m_plastNode->m_pnext = NULL;
 	pfirstListNode = NULL;
 	psecondListNode = NULL;
 }
@@ -179,7 +156,7 @@ void Paradise::Algorithm::CSingleLinkList<T>::copyList(const Paradise::Algorithm
  * @return 链表是空链表返回false，否则返回true
  */
 template<class T>
-Paradise::Type::EBool Paradise::Algorithm::CSingleLinkList<T>::isEmpty() const
+Paradise::Type::EBool Paradise::Algorithm::CLinkList<T>::isEmpty() const
 {
 	if (NULL == m_pfirstNode)
 		return Paradise::Type::FALSE;
@@ -192,7 +169,7 @@ Paradise::Type::EBool Paradise::Algorithm::CSingleLinkList<T>::isEmpty() const
  * @return 返回链表的长度
  */
 template<class T>
-int Paradise::Algorithm::CSingleLinkList<T>::length() const
+int Paradise::Algorithm::CLinkList<T>::length() const
 {
 	return m_count;
 }
@@ -204,7 +181,7 @@ int Paradise::Algorithm::CSingleLinkList<T>::length() const
  * @return 链表第一个元素值
  */
 template<class T>
-T Paradise::Algorithm::CSingleLinkList<T>::front() const
+T Paradise::Algorithm::CLinkList<T>::front() const
 {
 	return m_pfirstNode->m_value;
 }
@@ -216,7 +193,7 @@ T Paradise::Algorithm::CSingleLinkList<T>::front() const
  * @return 链表最后一个元素值
  */
 template<class T>
-T Paradise::Algorithm::CSingleLinkList<T>::back() const
+T Paradise::Algorithm::CLinkList<T>::back() const
 {
 	return m_plastNode->m_value;
 }
@@ -227,7 +204,7 @@ T Paradise::Algorithm::CSingleLinkList<T>::back() const
  * @return 返回指定值是否在链表中，如果存在则返回true，否则返回false
  */
 template<class T>
-Paradise::Type::EBool Paradise::Algorithm::CSingleLinkList<T>::search(const T& searchItem) const
+Paradise::Type::EBool Paradise::Algorithm::CLinkList<T>::search(const T& searchItem) const
 {
 	SSingleLinkListNode<T>* psearchNode = m_pfirstNode;
 	while (psearchNode) {
@@ -246,7 +223,7 @@ Paradise::Type::EBool Paradise::Algorithm::CSingleLinkList<T>::search(const T& s
  * @return 返回指定索引的节点值。
  */
 template<class T>
-T Paradise::Algorithm::CSingleLinkList<T>::valueAt(int index) const
+T Paradise::Algorithm::CLinkList<T>::valueAt(int index) const
 {
 	if (index < 0 || index >= m_count) {
 		std::cerr << "out of range" << std::endl;
@@ -266,13 +243,14 @@ T Paradise::Algorithm::CSingleLinkList<T>::valueAt(int index) const
  * @brief 将指定值插在链表的开头
  */
 template<class T>
-void Paradise::Algorithm::CSingleLinkList<T>::insertFirst(const T& newItem)
+void Paradise::Algorithm::CLinkList<T>::insertFirst(const T& newItem)
 {
 	SSingleLinkListNode<T>* pnewNode = new SSingleLinkListNode<T>;
 	pnewNode->m_value = newItem;
 	pnewNode->m_pnext = m_pfirstNode;
+	pnewNOde->m_pprevious = NULL;
 	m_pfirstNode = pnewNode;
-	if (m_plastNode)
+	if (!m_plastNode)
 		m_plastNode = m_pfirstNode;
 	++m_count;
 }
@@ -281,7 +259,7 @@ void Paradise::Algorithm::CSingleLinkList<T>::insertFirst(const T& newItem)
  * @brief 将指定值插在链表的结尾
  */
 template<class T>
-void Paradise::Algorithm::CSingleLinkList<T>::insertLast(const T& newItem)
+void Paradise::Algorithm::CLinkList<T>::insertLast(const T& newItem)
 {
 	SSingleLinkListNode<T>* pnewNode = new SSingleLinkListNode<T>;
 	pnewNode->m_value = newItem;
@@ -290,8 +268,10 @@ void Paradise::Algorithm::CSingleLinkList<T>::insertLast(const T& newItem)
 	if (NULL == m_pfirstNode) {
 		m_pfirstNode = pnewNode;
 		m_plastNode = pnewNode;
+		pnewNode->m_pprevious = NULL;
 	} else {
 		m_plastNode->m_pnext = pnewNode;
+		pnewNode->m_pprevious = m_plastNode;
 		m_plastNode = pnewNode;
 	}
 	
@@ -302,36 +282,36 @@ void Paradise::Algorithm::CSingleLinkList<T>::insertLast(const T& newItem)
  * @brief 删除指定值
  */
 template<class T>
-void Paradise::Algorithm::CSingleLinkList<T>::deleteItem(const T& deleteItem)
+void Paradise::Algorithm::CLinkList<T>::deleteItem(const T& deleteItem)
 {
 	if (!m_pfirstNode)
 		return ;
 
 	SSingleLinkListNode<T> *pdeleteNode = NULL, *ptailNode = NULL;
 	pdeleteNode = m_pfirstNode;
-	if (pdeleteNode->m_value == deleteItem) {
-		m_pfirstNode = m_pfirstNode->m_pnext;
-		if (!m_pfirstNode) {
-			m_plastNode = NULL;
-		}
-		delete pdeleteNode; 
-		--m_count;
-		return ;
-	}
-
-	ptailNode = pdeleteNode;
-	pdeleteNode = m_pfirstNode->m_pnext;
 	while (pdeleteNode) {
-		if (deleteItem == pdeleteNode->m_value) {
-			if (NULL == pdeleteNode->m_pnext) {
-				m_plastNode = ptailNode;
-				m_plastNode->m_pnext = NULL;
+		if (pdeleteNode->m_value == deleteItem) {
+			// 如果前一个节点存在
+			if (pdeleteNode->m_pprevious) {
+				// 前一个节点的后向节点指向删除节点的后向节点，至于是否是NULL则不影响
+				(pdeleteNode->m_pprevious)->m_pnext = pdeleteNode->m_pnext;
+				// 如果删除节点的后向节点存在，则将该后向节点的前向节点指向删除节点的前向节点
+				if (pdeleteNode->m_pnext) {
+					(pdeleteNode->m_pnext)->m_pprevious = pdeleteNode->m_pprevious;
+				}
+			} else { // 如果前一个节点不存在
+				// 如果后向节点存在，则将后向节点的前向节点设置为NULL。
+				if (pdeleteNode->m_pnext) {
+					(pdeleteNode->m_pnext)->m_pprevious = NULL;
+				} else {
+					// 如果后向节点不存在，根据前向节点也不存在，说明本节点是唯一节点
+					m_pfirstNode = m_plastNode = NULL;
+				}
 			}
 			delete pdeleteNode;
-			return ;
+		} else {
+			pdeleteNode = pdeleteNode->m_pnext;
 		}
-		ptailNode = ptailNode->m_pnext;
-		pdeleteNode = pdeleteNode->m_pnext;
 	}
 }
 

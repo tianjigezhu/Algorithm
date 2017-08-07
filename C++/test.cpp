@@ -20,11 +20,14 @@ struct B
 int main(int argc, char *argv[])
 {
 	Paradise::Algorithm::CSingleLinkList<int> singleLinkList;
-	//singleLinkList.insertFirst(10);
-	//cout << singleLinkList.front() << endl;
-	a::B<int> d;
-	d.c = 10;
-	cout << d.c << endl;
+	for (int index = 0; index < 10; ++index) {
+		singleLinkList.insertFirst(index);
+	}
+
+	int count = singleLinkList.length();
+	for (int index = 0; index < count; ++index) {
+		cout << singleLinkList.valueAt(index) << endl;
+	}
 
 	return 0;
 }
